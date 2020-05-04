@@ -10,7 +10,11 @@ import com.example.playgroundapp.R
 const val TYPE_1 = 0
 const val TYPE_2 = 1
 
-class ClassAdapter : ListAdapter<ClassWrapper, ClassViewHolder>(DIFF_CALLBACK) {
+class ClassAdapter(private val onClick: (ClassWrapper) -> Unit) : ListAdapter<ClassWrapper, ClassViewHolder>(DIFF_CALLBACK) {
+
+    override fun submitList(list: MutableList<ClassWrapper>?) {
+        super.submitList(list?.map { it.copy() })
+    }
 
     override fun getItemViewType(position: Int) = when (getItem(position).type) {
         ClassType.Type1 -> TYPE_1
@@ -27,7 +31,7 @@ class ClassAdapter : ListAdapter<ClassWrapper, ClassViewHolder>(DIFF_CALLBACK) {
     }
 
     override fun onBindViewHolder(holder: ClassViewHolder, position: Int) {
-        holder.bind(getItem(position).data)
+        holder.bind(getItem(position), onClick)
     }
 
     companion object {

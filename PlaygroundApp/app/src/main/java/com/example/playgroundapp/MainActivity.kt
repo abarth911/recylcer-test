@@ -14,8 +14,24 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     val spanCount = 3
+    val list = mutableListOf(
+        ClassWrapper(type = ClassType.Type1, data = "1"),
+        ClassWrapper(type = ClassType.Type1, data = "3"),
+        ClassWrapper(type = ClassType.Type1, data = "3"),
+        ClassWrapper(type = ClassType.Type1, data = "1"),
+        ClassWrapper(type = ClassType.Type1, data = "1"),
+        ClassWrapper(type = ClassType.Type1, data = "1"),
+        ClassWrapper(type = ClassType.Type1, data = "1"),
+        ClassWrapper(type = ClassType.Type1, data = "1"),
+        ClassWrapper(type = ClassType.Type1, data = "3"),
+        ClassWrapper(type = ClassType.Type1, data = "3"),
+        ClassWrapper(type = ClassType.Type1, data = "1"),
+        ClassWrapper(type = ClassType.Type1, data = "1"),
+        ClassWrapper(type = ClassType.Type1, data = "1"),
+        ClassWrapper(type = ClassType.Type1, data = "1")
+    )
 
-    val adapter = ClassAdapter()
+    val adapter = ClassAdapter { removeItem(it) }
     private val layoutManager by lazy { GridLayoutManager(this, spanCount) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,25 +40,15 @@ class MainActivity : AppCompatActivity() {
         setupRecycler()
         layoutManager()
 
-        val list = mutableListOf(
-            ClassWrapper(type = ClassType.Type1, data = "1"),
-            ClassWrapper(type = ClassType.Type1, data = "3"),
-            ClassWrapper(type = ClassType.Type1, data = "3"),
-            ClassWrapper(type = ClassType.Type1, data = "1"),
-            ClassWrapper(type = ClassType.Type1, data = "1"),
-            ClassWrapper(type = ClassType.Type1, data = "1"),
-            ClassWrapper(type = ClassType.Type1, data = "1"),
-            ClassWrapper(type = ClassType.Type1, data = "1"),
-            ClassWrapper(type = ClassType.Type1, data = "3"),
-            ClassWrapper(type = ClassType.Type1, data = "3"),
-            ClassWrapper(type = ClassType.Type1, data = "1"),
-            ClassWrapper(type = ClassType.Type1, data = "1"),
-            ClassWrapper(type = ClassType.Type1, data = "1"),
-            ClassWrapper(type = ClassType.Type1, data = "1")
-        )
+
 
         list.add(6, ClassWrapper(type = ClassType.Type2, data = "3"))
 
+        adapter.submitList(list)
+    }
+
+    private fun removeItem(position: ClassWrapper) {
+        list.remove(position)
         adapter.submitList(list)
     }
 
